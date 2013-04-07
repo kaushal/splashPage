@@ -122,7 +122,6 @@
         <script>
             $(document).ready(function(){
 
-
                 $displayCanvas = $('#displayCanvas');
                 var canvas = document.getElementById('screen');
                 var $canvas = $(canvas);
@@ -159,7 +158,7 @@
                     //deleteCrosshair(prevX, prevY);
                     prevX = xPos;
                     prevY = yPos;
-                    socket.emit('data', {'xPos': xPos, 'yPos': yPos, 'color': col});
+                    socket.emit('data', {'xPos': xPos/($(window).width()), 'yPos': yPos($(window).height()), 'color': col});
                     var color;
                     console.log("x: " + xPos + "y: " + yPos);
                 });
