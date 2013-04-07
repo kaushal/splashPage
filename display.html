@@ -11,6 +11,8 @@
                 $displayCanvas = $('#displayCanvas');
                 var canvas = document.getElementById('screen');
                 var ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
 
                 var createCrosshair = function(xPos, yPos, color){
 
@@ -19,31 +21,67 @@
                 var deleteCrosshair = function(prevX, prevY){
 
                 }
-                var socket = io.connect('/')
+                var socket = io.connect('/');
 
-                socket.on('data', function(data){
+
+                $(canvas).click(function(e){
+                      var offset = $(this).offset();
+                      var xPos = e.clientX;
+                      var yPos = e.clientY;
+                     
+                      crosshair = createCrosshair(xPos, yPos);
+                      //deleteCrosshair(prevX, prevY);
+                      prevX = xPos;
+                      prevY = yPos;
+                      socket.emit('data', {'xPos': xPos, 'yPos': yPos, 'color': "000000"});
+                      var color;
+                      console.log("x: " + xPos + "y: " + yPos);
+                 });
+
+                socket.on('userName', function(uname){
+                    console.log("i'm here");
+                });
+
+                socket.on('data2', function(data){
+                    console.log("Position Data sent");
                     var xPos = data.xPos;
                     var  yPos = data.yPos;
                     var color = data.color;
-                    ctx.fillRect(xPos - 5, yPos - 5, xPos + 5, yPos + 5);
+                    console.log(data);
+                    ctx.fillStyle = color;
+                    ctx.fillRect(parseInt(xPos) - 5, parseInt(yPos) - 5, 10, 10);
+
+                    //ctx.fillRect(data.xPos - 5, data.yPos - 5, 10, 10);
+
                     //(xPos, yPos, color);
                 });
-                $displayCanvas.click(function(e){
-
-                    var offset = $(this).offset();
-                    var xPos = e.clientX;
-                    var yPos = e.clientY;
-
-                    crosshair = createCrosshair(xPos, yPos);
-                    //deleteCrosshair(prevX, prevY);
-                    prevX = xPos;
-                    prevY = yPos;
-                    socket.emit('data', {'xPos': xPos, 'yPos': yPos, 'color': color})
-                    socket.emit('xPos', xPos);
-                    socket.emit('yPos', yPos);
-                    var color;
-                    console.log("x: " + xPos + "y: " + yPos);
+                socket.on('paint', function(data) {
+                    console.log("Paint data");
+                    var xPos = data.xPos;
+                    var yPos = data.yPos;
+                    var color = data.color;
+                    ctx.fillStyle = "#" + hex;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 20, 0, Math.PI*2, true);
+                    ctx.closePath();
+                    ctx.fill();
                 });
+
+                canvas.splat = function (x, y, power, xdir, ydir) {
+                    canvas.drawsplat(x * canvas.width, y * canvas.height, power, 0, xdir, ydir);
+                };
+
+                canvas.drawsplat = function (x, y, power, num, xdir, ydir) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI*2, true);
+                    ctx.closePath();
+                    ctx.fill();
+                    if (num != 5) {
+                        canvas.drawsplat(x + (Math.random() - xdir) * power / 2, y + (Math.random() - ydir) * power / 2, power/(1.5 + Math.random()), num + 1, xdir, ydir);
+                        canvas.drawsplat(x + (Math.random() - xdir) * power * 2, y + (Math.random() - ydir)  * power * 2, power/ (1.3 + Math.random()), num + 1, xdir, ydir);
+                        canvas.drawsplat(x + (Math.random() - xdir) * power * 4, y + (Math.random() - ydir) * power * 4, power/ (2 + 2*Math.random()), num + 1, xdir, ydir);
+                    }
+                };
             });
         </script>
         <script src="/socket.io/socket.io.js"></script>

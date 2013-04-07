@@ -23,7 +23,9 @@ io.sockets.on('connection', function(socket){
         socket.emit('paint', paint)
    })
    socket.on('data', function(data){
-        socket.emit('data', data)
+       console.log("well atleast i'm here`");
+        io.sockets.emit('data2', data)
+       console.log("finished with that")
    });
    socket.on('xPos', function(value) {
        xPos = value
