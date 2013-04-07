@@ -1,0 +1,8 @@
+.displayCanvas{
+    padding: 30px;
+    border:2px solid gray;
+    position:relative;
+    height: 200px;
+    width: 200px;
+    background: #F00;
+}
