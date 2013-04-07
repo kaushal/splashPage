@@ -3,9 +3,36 @@
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <title>Splash</title>
-        <script src="scripts/jquery.js"></script>
-        <script src="scripts/canvasFunctions.js"></script>
-        <link rel="stylesheet" href="canvasStyle.css" type="text/css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script> 
+            $(document).ready(function(){
+    $displayCanvas = $('#displayCanvas');
+    var xPos;
+    var yPos;
+    $displayCanvas.click(function(e){
+        var socket = io.connect('/')
+
+
+        var offset = $(this).offset();
+        var xPos = e.clientX;
+        var yPos = e.clientY;
+        
+        socket.emit('xPos', xPos);
+        socket.emit('yPos', yPos);
+
+        console.log("x: " + xPos + "y: " + yPos);
+    });
+});
+
+
+        </script>
+        <script src="/socket.io/socket.io.js"></script>
+        <style> #displayCanvas{
+                    position:relative;
+                    height: 100%;
+                    width: 100%;
+                }
+        </style>
     </head>
 
     <body>
