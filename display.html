@@ -35,6 +35,10 @@
 
                     socket.emit('xPos', xPos);
                     socket.emit('yPos', yPos);
+                    var color;
+                    socket.on('data', function(color){
+                        console.log(color)
+                    });
 
                     console.log("x: " + xPos + "y: " + yPos);
                 });
