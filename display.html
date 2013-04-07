@@ -11,13 +11,8 @@
                 $displayCanvas = $('#displayCanvas');
                 var canvas = document.getElementById('screen');
                 var ctx = canvas.getContext('2d');
-                var xPos;
-                var yPos;
-                var prevX;
-                var prexY;
-                var crosshair;
 
-                var createCrosshair = function(xPos, yPos){
+                var createCrosshair = function(xPos, yPos, color){
 
                 }
 
@@ -25,13 +20,14 @@
 
                 }
                 var socket = io.connect('/')
-                socket.on('userName', function(color){
-                    ctx.fillStyle = color;
-                    ctx.fillRect (0, 0, canvas.width, canvas.height);
-                    console.log(color)
+
+                socket.on('data', function(data){
+                    var xPos = data.xPos;
+                    var  yPos = data.yPos;
+                    var color = data.color;
+                    ctx.fillRect(xPos - 5, yPos - 5, xPos + 5, yPos + 5);
+                    //(xPos, yPos, color);
                 });
-
-
                 $displayCanvas.click(function(e){
 
                     var offset = $(this).offset();
@@ -42,7 +38,7 @@
                     //deleteCrosshair(prevX, prevY);
                     prevX = xPos;
                     prevY = yPos;
-
+                    socket.emit('data', {'xPos': xPos, 'yPos': yPos, 'color': color})
                     socket.emit('xPos', xPos);
                     socket.emit('yPos', yPos);
                     var color;

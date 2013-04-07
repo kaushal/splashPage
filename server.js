@@ -19,7 +19,9 @@ app.get('/display', function(req, res){
 io.sockets.on('connection', function(socket){
 
    socket.emit('userName', '#'+Math.floor(Math.random()*16777215).toString(16));
-
+   socket.on('data', function(data){
+        socket.emit('data', data)
+   });
    socket.on('xPos', function(value) {
        xPos = value
     console.log('setting x value: ' + value) 

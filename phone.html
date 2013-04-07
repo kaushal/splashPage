@@ -1,1 +1,71 @@
-here you go 
+<!DOCTYPE>
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>Splash</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+
+
+                $displayCanvas = $('#displayCanvas');
+                var canvas = document.getElementById('screen');
+                var $canvas = $(canvas);
+                var ctx = canvas.getContext('2d');
+                var xPos;
+                var yPos;
+                var prevX;
+                var prexY;
+                var crosshair;
+
+                var createCrosshair = function(xPos, yPos){
+
+                }
+
+                var deleteCrosshair = function(prevX, prevY){
+
+                }
+                var socket = io.connect('/')
+                socket.on('userName', function(color){
+                    ctx.fillStyle = color;
+                    ctx.fillRect (0, 0, canvas.width, canvas.height);
+                    console.log(color)
+                });
+
+
+                $canvas.click(function(e){
+
+                    var offset = $(this).offset();
+                    var xPos = e.clientX;
+                    var yPos = e.clientY;
+
+                    crosshair = createCrosshair(xPos, yPos);
+                    //deleteCrosshair(prevX, prevY);
+                    prevX = xPos;
+                    prevY = yPos;
+                    socket.emit('data', {'xPos': xPos, 'yPos': yPos, 'color': color})
+                    socket.emit('xPos', xPos);
+                    socket.emit('yPos', yPos);
+                    var color;
+                    console.log("x: " + xPos + "y: " + yPos);
+                });
+            });
+        </script>
+        <script src="/socket.io/socket.io.js"></script>
+        <style> #displayCanvas{
+            position:absolute;
+            
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="screen" style="position: absolute;
+    width: 100%;
+    height: 100%"></canvas>
+    <div id="displayCanvas" class="displayCanvas">
+    </div>
+
+</body>
+</html>
