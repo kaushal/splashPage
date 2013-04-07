@@ -5,6 +5,6 @@ $(document).ready(function(){
         var offset = $(this).offset();
         var xPos = e.clientX;
         var yPos = e.clientY;
-        alert("x: " + xPos + "y: " + yPos);
+        console.log("x: " + xPos + "y: " + yPos);
     });
 });
