@@ -7,7 +7,6 @@
         <script>
             $(document).ready(function(){
 
-
                 $displayCanvas = $('#displayCanvas');
                 var canvas = document.getElementById('screen');
                 var $canvas = $(canvas);
@@ -44,8 +43,8 @@
                     prevX = xPos;
                     prevY = yPos;
                     socket.emit('data', {'xPos': xPos, 'yPos': yPos, 'color': color})
-                    socket.emit('xPos', xPos);
-                    socket.emit('yPos', yPos);
+                    socket.emit('xPos', xPos/($(window).width()));
+                    socket.emit('yPos', yPos)/($(window).height());
                     var color;
                     console.log("x: " + xPos + "y: " + yPos);
                 });
@@ -54,7 +53,7 @@
         <script src="/socket.io/socket.io.js"></script>
         <style> #displayCanvas{
             position:absolute;
-            
+
         }
     </style>
 </head>
