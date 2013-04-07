@@ -9,12 +9,29 @@
                 $displayCanvas = $('#displayCanvas');
                 var xPos;
                 var yPos;
+                var prevX;
+                var prexY;
+                var crosshair;
+
+                var createCrosshair = function(xPos, yPos){
+
+                }
+
+                var deleteCrosshair = function(prevX, prevY){
+
+                }
+
                 $displayCanvas.click(function(e){
                     var socket = io.connect('/')
 
                     var offset = $(this).offset();
                     var xPos = e.clientX;
                     var yPos = e.clientY;
+
+                    crosshair = createCrosshair(xPos, yPos);
+                    deleteCrosshair(prevX, prevY);
+                    prevX = xPos;
+                    prevY = yPos;
 
                     socket.emit('xPos', xPos);
                     socket.emit('yPos', yPos);
@@ -25,6 +42,7 @@
         </script>
         <script src="/socket.io/socket.io.js"></script>
         <style> #displayCanvas{
+            background-image:url('static/imgs/canvas-fine-hemp');
             position:relative;
             height: 100%;
             width: 100%;
