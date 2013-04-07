@@ -24,45 +24,45 @@
                 var deleteCrosshair = function(prevX, prevY){
 
                 }
+                var socket = io.connect('/')
+                socket.on('userName', function(color){
+                    ctx.fillStyle = color;
+                    ctx.fillRect (0, 0, canvas.width, canvas.height);
+                    console.log(color)
+                });
+
 
                 $displayCanvas.click(function(e){
-                    var socket = io.connect('/')
 
                     var offset = $(this).offset();
                     var xPos = e.clientX;
                     var yPos = e.clientY;
 
                     crosshair = createCrosshair(xPos, yPos);
-                    deleteCrosshair(prevX, prevY);
+                    //deleteCrosshair(prevX, prevY);
                     prevX = xPos;
                     prevY = yPos;
 
                     socket.emit('xPos', xPos);
                     socket.emit('yPos', yPos);
                     var color;
-                    socket.on('userName', function(color){
-                        ctx.fillStyle = color;
-                        console.log(color)
-                    });
-
                     console.log("x: " + xPos + "y: " + yPos);
                 });
             });
         </script>
         <script src="/socket.io/socket.io.js"></script>
         <style> #displayCanvas{
-            background-image:url('static/imgs/canvas-fine-hemp');
-            position:relative;
-            height: 100%;
-            width: 100%;
+            position:absolute;
+            
         }
     </style>
 </head>
 
 <body>
 
-    <canvas id="screen" width="100%" height="100%"></canvas>
-
+    <canvas id="screen" style="position: absolute;
+    width: 100%;
+    height: 100%"></canvas>
     <div id="displayCanvas" class="displayCanvas">
     </div>
 
