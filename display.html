@@ -4,41 +4,41 @@
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <title>Splash</title>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script> 
+        <script>
             $(document).ready(function(){
-    $displayCanvas = $('#displayCanvas');
-    var xPos;
-    var yPos;
-    $displayCanvas.click(function(e){
-        var socket = io.connect('/')
+                $displayCanvas = $('#displayCanvas');
+                var xPos;
+                var yPos;
+                $displayCanvas.click(function(e){
+                    var socket = io.connect('/')
 
 
-        var offset = $(this).offset();
-        var xPos = e.clientX;
-        var yPos = e.clientY;
-        
-        socket.emit('xPos', xPos);
-        socket.emit('yPos', yPos);
+                    var offset = $(this).offset();
+                    var xPos = e.clientX;
+                    var yPos = e.clientY;
 
-        console.log("x: " + xPos + "y: " + yPos);
-    });
-});
+                    socket.emit('xPos', xPos);
+                    socket.emit('yPos', yPos);
+
+                    console.log("x: " + xPos + "y: " + yPos);
+                });
+            });
 
 
         </script>
         <script src="/socket.io/socket.io.js"></script>
         <style> #displayCanvas{
-                    position:relative;
-                    height: 100%;
-                    width: 100%;
-                }
-        </style>
-    </head>
+            position:relative;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
 
-    <body>
+<body>
 
-        <div id="displayCanvas" class="displayCanvas">
-        </div>
+    <div id="displayCanvas" class="displayCanvas">
+    </div>
 
-    </body>
+</body>
 </html>
